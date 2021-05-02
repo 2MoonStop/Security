@@ -1,0 +1,11 @@
+1.XSSDefense
+    1）设置HttpOnly（在ie6中实现）
+    2）输入检查 XSS Filter
+        XSS Filter的问题：
+            1.XSSFilter在用户提交数据时获取变量，并进行XSS检查；但此时用户数据并没有结合渲染页面对HTML代码，因此XSS Filter对语境的理解并不完整
+            2.XSSFilter对"<",">"等字符的处理，可能会改变用户数据的语义
+    3）输出检查 编码/转义
+        在OWASP ESAPI中有一个安全的JavaScriptEncode的实现 非常严格
+        还有许多用于各种情况的编码函数，比如XMLEncode，JSONEncode等
+    4）处理富文本
+        Anti-Samy是OWASP上的一个开源项目，也是目前最好的XSS Filter
