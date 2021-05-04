@@ -1,11 +1,39 @@
-1.XSSDefense
-    1）设置HttpOnly（在ie6中实现）
-    2）输入检查 XSS Filter
+1.XSS(Cross Site Script)
+    1）设置HttpOnly（在ie6中实现）  ---> com.niko.security.XSS.XSSDefense
+    2）输入检查 XSS Filter  ---> com.niko.security.XSS.Filter
         XSS Filter的问题：
             1.XSSFilter在用户提交数据时获取变量，并进行XSS检查；但此时用户数据并没有结合渲染页面对HTML代码，因此XSS Filter对语境的理解并不完整
             2.XSSFilter对"<",">"等字符的处理，可能会改变用户数据的语义
-    3）输出检查 编码/转义
+    3）输出检查 编码/转义  ---> com.niko.security.XSS.XSSDefense
         在OWASP ESAPI中有一个安全的JavaScriptEncode的实现 非常严格
         还有许多用于各种情况的编码函数，比如XMLEncode，JSONEncode等
-    4）处理富文本
+    4）处理富文本  ---> com.niko.security.XSS.XSSDefense
         Anti-Samy是OWASP上的一个开源项目，也是目前最好的XSS Filter
+2.CSRF(Cross Site Request Forgery) 跨站点请求伪造
+    1）验证码
+    2）Referer Check
+    3）Anti CSRF Token
+        使用原则：1.根据”不可预测性原则“，Token的生成一定要足够随机，需使用安全的随机数生成器生成.
+                2.为使用方便，可允许在一个用户的有效生命周期内，在Token消耗掉之前都是用同一个Token
+                3.可考虑生成多个有效的Token，以解决多页面共存的场景
+                4.使用Token时注意Token的保密性，尽量放在表单中，把敏感操作由GET改为POST，以form表单/AJAX提交，可避免Token泄露
+3.ClickJacking
+    1）frame busting --> web/js/ClickJacking/FrameBusting.js
+    2）X-Frame-Options
+        有以下浏览器开始支持：
+            IE 8+
+            Opera 10.50+
+            Safari 4+
+            Chrome 4.1.249.1042+
+            Firefox 3.6.9(or earlier with NoScript)
+        有三个可选的值：
+            DENY
+            SAMEORIGIN
+            ALLOW-FROM orgin
+            当值为DENY,浏览器会拒绝当前页面加载任何frame页面；若值为SAMEORIGIN则frame页面的地址只能为同源域名下的页面，若值为ALLOW-FROM则可以定义允许frame加载的页面
+    3）除2）外，Firefox的"Content Security Policy",及Firefox的NoScript扩展也能有效防御
+4.SQL注入  --> com.niko.security.SQLInjection.SQLInjection
+    1）使用预编译语句
+    2）使用存储过程
+    3）检查数据类型
+    4）使用安全函数
